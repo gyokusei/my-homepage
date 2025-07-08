@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- 页面标题将由JS动态设置 -->
+    <title>日本拉面之旅 | 白菊</title>
+    
+    <!-- 引入Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- 引入Inter, Noto Sans SC, Noto Sans JP 字体 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Noto+Sans+JP:wght@400;500;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <!-- 引入图标库 -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        /* 自定义文章内容样式 */
+        body {
+            font-family: 'Inter', 'Noto Sans SC', 'Noto Sans JP', sans-serif;
+        }
+        .prose h1, .prose h2, .prose h3 {
+            font-weight: 700;
+        }
+        .prose p {
+            line-height: 1.75;
+            margin-bottom: 1.25em;
+        }
+        .prose a {
+            color: #4f46e5;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        .prose a:hover {
+            color: #4338ca;
+            text-decoration: underline;
+        }
+        .prose strong {
+            font-weight: 700;
+        }
+        /* 店名标题样式 */
+        .prose h2.shop-name {
+            font-size: 1.875rem !important; /* text-3xl */
+            line-height: 2.25rem !important;
+            margin-bottom: 1em !important;
+        }
+        /* 语言切换按钮激活样式 */
+        .lang-switch-btn.active {
+            color: #4f46e5; /* indigo-600 */
+            font-weight: 700;
+        }
+        .dark .lang-switch-btn.active {
+            color: #a5b4fc; /* indigo-400 */
+        }
+        /* 悬浮导航激活样式 */
+        #nav-links a.active {
+            color: #4f46e5; /* indigo-600 */
+            font-weight: 700;
+        }
+        .dark #nav-links a.active {
+            color: #a5b4fc; /* indigo-400 */
+        }
+        /* 悬浮挂件样式 */
+        #side-nav-widget.closed {
+            transform: translateX(calc(100% - 40px)); /* 40px is button width */
+        }
+        #side-nav-widget.closed #nav-toggle-icon {
+            transform: rotate(180deg);
+        }
+    </style>
+</head>
+<body class="bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-200">
+
+    <!-- 导航栏 -->
+    <header class="bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm sticky top-0 z-50 shadow-sm">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="index.html" class="text-2xl font-bold text-indigo-600 dark:text-indigo-400" data-lang="name">白菊</a>
+            <nav class="hidden md:flex items-center space-x-8">
+                <a href="index.html#blog" class="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors" data-lang="navBlog">博客</a>
+                <a href="index.html#about" class="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors" data-lang="navAbout">关于我</a>
+                <a href="index.html#contact" class="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors" data-lang="navContact">联系我</a>
+                <!-- 语言切换 -->
+                <div class="flex space-x-3 pl-4 border-l border-gray-200 dark:border-gray-700">
+                    <button class="lang-switch-btn" data-lang-btn="zh">ZH</button>
+                    <button class="lang-switch-btn" data-lang-btn="ja">JA</button>
+                    <button class="lang-switch-btn" data-lang-btn="en">EN</button>
+                </div>
+            </nav>
+            <button id="mobile-menu-button" class="md:hidden p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500">
+                <i data-lucide="menu"></i>
+            </button>
+        </div>
+        <!-- 移动端菜单 -->
+        <div id="mobile-menu" class="hidden md:hidden px-6 pb-4">
+            <a href="index.html#blog" class="block py-2 text-center hover:bg-gray-100 dark:hover:bg-gray-800 rounded-md" data-lang="navBlog">博客</a>
+            <a href="index.html#about" class="block py-2 text-center hover:bg-gray-100 dark:hover:bg-gray-800 rounded-md" data-lang="navAbout">关于我</a>
+            <a href="index.html#contact" class="block py-2 text-center hover:bg-gray-100 dark:hover:bg-gray-800 rounded-md" data-lang="navContact">联系我</a>
+            <div class="flex justify-center space-x-4 pt-4 mt-4 border-t border-gray-200 dark:border-gray-700">
+                <button class="lang-switch-btn" data-lang-btn="zh">中文</button>
+                <button class="lang-switch-btn" data-lang-btn="ja">日本語</button>
+                <button class="lang-switch-btn" data-lang-btn="en">English</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- 悬浮摘要导航挂件 -->
+    <aside id="side-nav-widget" class="fixed right-0 top-1/2 -translate-y-1/2 z-40 transition-transform duration-300 ease-in-out">
+        <div class="flex items-center">
+            <button id="nav-toggle-btn" class="bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm shadow-lg p-2 rounded-l-full focus:outline-none">
+                <i id="nav-toggle-icon" data-lucide="chevron-left" class="transition-transform duration-300"></i>
+            </button>
+            <div id="nav-panel" class="bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm shadow-lg p-4 w-48 rounded-l-lg">
+                <ul id="nav-links" class="space-y-2">
+                    <!-- 导航链接会由JS动态生成 -->
+                </ul>
+            </div>
+        </div>
+    </aside>
+
+    <!-- 主内容 -->
+    <main class="container mx-auto px-6">
+        <div class="prose dark:prose-invert lg:prose-xl max-w-4xl mx-auto">
+            <!-- 文章元数据 -->
+            <div class="mb-8 border-b pb-4 border-gray-200 dark:border-gray-700 mt-8">
+                <h1 class="text-4xl font-bold" data-lang="postTitle">日本拉面之旅</h1>
+                <p class="text-gray-500 dark:text-gray-400" data-lang="postDate">发布于 2025年7月9日</p>
+            </div>
+
+            <!-- 文章正文容器 -->
+            <article data-lang="postContent">
+                <!-- 默认中文内容，会被JS覆盖 -->
+            </article>
+        </div>
+    </main>
+
+    <!-- 页脚 -->
+    <footer class="bg-white dark:bg-gray-900 mt-16">
+        <div class="container mx-auto px-6 py-8">
+            <div class="flex flex-col items-center sm:flex-row sm:justify-between">
+                <p class="text-sm text-gray-500 dark:text-gray-400" data-lang="footerRights">© 2024 白菊. 保留所有权利.</p>
+                <div class="flex mt-4 sm:mt-0 -mx-2">
+                    <a href="https://github.com/gyokusei" target="_blank" rel="noopener noreferrer" class="mx-2 text-gray-500 hover:text-indigo-600 dark:hover:text-indigo-400" aria-label="GitHub"><i data-lucide="github" class="w-5 h-5"></i></a>
+                    <a href="https://x.com/srgksrgk" target="_blank" rel="noopener noreferrer" class="mx-2 text-gray-500 hover:text-indigo-600 dark:hover:text-indigo-400" aria-label="Twitter"><i data-lucide="twitter" class="w-5 h-5"></i></a>
+                    <a href="https://www.linkedin.com/in/玉清-李-755428317" target="_blank" rel="noopener noreferrer" class="mx-2 text-gray-500 hover:text-indigo-600 dark:hover:text-indigo-400" aria-label="LinkedIn"><i data-lucide="linkedin" class="w-5 h-5"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // --- 多语言翻译数据 ---
+        const translations = {
+            zh: {
+                name: "白菊",
+                navBlog: "博客",
+                navAbout: "关于我",
+                navContact: "联系我",
+                footerRights: "© 2024 白菊. 保留所有权利.",
+                pageTitle: "日本拉面之旅 | 白菊",
+                postTitle: "日本拉面之旅",
+                postDate: "发布于 2025年7月9日",
+                shops: [
+                    { id: 'shop-echan', name: 'えーちゃん食堂' },
+                    { id: 'shop-yoshimuraya', name: '家系総本山 吉村家' },
+                    { id: 'shop-sunada', name: '麺創庵 砂田' },
+                    { id: 'shop-soranoiro', name: 'そらのいろ ニッポン' },
+                    { id: 'shop-ajisai', name: 'らぁ麺 紫陽花' },
+                    { id: 'shop-narutoya', name: 'なるとや' }
+                ],
+                postContent: `
+                    <div id="shop-echan" class="shop-section scroll-mt-24">
+                        <img src="https://images.rigyokusei.me/82EF0F42CF884ADFD88E372DB64AFE44.png" alt="えーちゃん食堂的拉面" class="w-full rounded-lg shadow-md mb-6">
+                        <h2 class="shop-name">えーちゃん食堂</h2>
+                        <p><strong>地点:</strong> 〒153-0064 東京都目黒区下目黒３丁目４−６ サンライズ目黒</p>
+                        <p><strong>评分:</strong> 5/5</p>
+                        <p><strong>评价:</strong> 只开大清早的人气店，寒风中六点便排了三十多人，不到八点就卖完歇业了。酱油+鸡油+煮干的组合，虽说是淡丽系，但味道一点都不寡淡，鸡油带来了油润，煮干带来了回味；熏制的叉烧又添加了一分烟熏的香味。中粗面筋道又入味，果然我还是喜欢更有口感的粗面。美中不足就是对我来说叉烧还是有点腻，虽然确实很香。满分，没啥好说的，太好吃了。</p>
+                    </div>
+                    <hr class="my-12 border-gray-300 dark:border-gray-600">
+                    <div id="shop-yoshimuraya" class="shop-section scroll-mt-24">
+                        <img src="https://images.rigyokusei.me/yoshimuraya.png" alt="家系総本山 吉村家的拉面" class="w-full rounded-lg shadow-md mb-6">
+                        <h2 class="shop-name">家系総本山 吉村家</h2>
+                        <p><strong>地点:</strong> 〒220-0073 神奈川県横浜市西区岡野１丁目６−４</p>
+                        <p><strong>评分:</strong> 3.8/5</p>
+                        <p><strong>评价:</strong> 家系拉面起源店，去过三次。几年前慕名而往，大受震撼，鸡油香而不腻，回味无穷。店铺搬迁后由于念念不忘，又去过两次，感觉大不如前，口味不再给人那么深的印象，而且浓度要普通都会觉得很咸。不过毕竟还是在平均水准之上，如果不排队还是可以吃吃，但就这每次都要排一个多小时的水平，我大概是不会再去了。</p>
+                    </div>
+                    <hr class="my-12 border-gray-300 dark:border-gray-600">
+                    <div id="shop-sunada" class="shop-section scroll-mt-24">
+                        <img src="https://images.rigyokusei.me/mensouan_sunada.png" alt="麺創庵 砂田的拉面" class="w-full rounded-lg shadow-md mb-6">
+                        <h2 class="shop-name">麺創庵 砂田</h2>
+                        <p><strong>地点:</strong> 〒170-0002 東京都豊島区巣鴨４丁目２４−６ 富士ビル 12</p>
+                        <p><strong>评分:</strong> 4/5</p>
+                        <p><strong>评价:</strong> 也是东京百名店之一，担心排队，下雨天早早就去了，结果等了半天我是第一个。要了隐藏菜单裏醤油，由于并没有吃过他家普通酱油的味道，单就裏醤油来说，汤的味道确实不错，酱油+鱼介带来的鲜味给人很深的印象，但面和汤的结合不好，面吃起来挂不住汤的味道，有些寡淡。因此只能遗憾评4分，果然排队一定程度上是不会骗人的。</p>
+                    </div>
+                    <hr class="my-12 border-gray-300 dark:border-gray-600">
+                    <div id="shop-soranoiro" class="shop-section scroll-mt-24">
+                        <img src="https://images.rigyokusei.me/soranoiro_nippon.png" alt="そらのいろ ニッポン的拉面" class="w-full rounded-lg shadow-md mb-6">
+                        <h2 class="shop-name">そらのいろ ニッポン</h2>
+                        <p><strong>地点:</strong> 〒100-0005 東京都千代田区丸の内１丁目９−１ 東京駅一番街地下ラーメンストリート</p>
+                        <p><strong>评分:</strong> 4.2/5</p>
+                        <p><strong>评价:</strong> 开在东京站地下拉面街的一家店，饭点还有不少人排队。本来开在这种地方的店，我没有报太大希望，结果端上来的出品意外的还不错。整体拉面没有哪里特别出彩，但每一部分都在平均水准之上。</p>
+                    </div>
+                    <hr class="my-12 border-gray-300 dark:border-gray-600">
+                    <div id="shop-ajisai" class="shop-section scroll-mt-24">
+                        <img src="https://images.rigyokusei.me/ajisai.png" alt="らぁ麺 紫陽花的拉面" class="w-full rounded-lg shadow-md mb-6">
+                        <h2 class="shop-name">らぁ麺 紫陽花</h2>
+                        <p><strong>地点:</strong> 〒454-0054 愛知県名古屋市中川区八剱町４丁目２０−１</p>
+                        <p><strong>评分:</strong> 4.6/5</p>
+                        <p><strong>评价:</strong> 大概是名古屋号称第一的店？预约了优先，下午三点到还是要排队。出品非常慢，进店之后好像等了至少十五分钟，不过好在拉面不负期望。汤调味非常精准，配菜丰富，也都是高水平。关于面，几个月后已经回忆不起来了，应该没有太出彩，但至少没有拖后腿。总的来说是一款非常出众的酱油拉面。</p>
+                    </div>
+                    <hr class="my-12 border-gray-300 dark:border-gray-600">
+                    <div id="shop-narutoya" class="shop-section scroll-mt-24">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+                            <img src="https://images.rigyokusei.me/narutoya_shio.png" alt="なるとや的盐味拉面" class="w-full rounded-lg shadow-md">
+                            <img src="https://images.rigyokusei.me/narutoya_shouyu.png" alt="なるとや的酱油拉面" class="w-full rounded-lg shadow-md">
+                        </div>
+                        <h2 class="shop-name">なるとや</h2>
+                        <p><strong>地点:</strong> 〒460-0008 愛知県名古屋市中区栄４丁目７−１３</p>
+                        <p><strong>评分:</strong> 4.2/5</p>
+                        <p><strong>评价:</strong> 看完live，就近找了一家评分比较高的店，也是EAST拉面百名店之一。到店九点多，没有游客，满座，但基本不需要排队。要了盐和酱油两碗连食，基底都是鱼介的汤，上面辅以盐或酱油的调味，都还不错，个人更喜欢更浓郁一些的酱油。如果住在附近，大概会经常来。</p>
+                    </div>
+                    <hr class="my-8">
+                    <p class="text-center text-gray-500 dark:text-gray-400"><em>未完待续...</em></p>
+                `
+            },
+            ja: {
+                name: "白菊",
+                navBlog: "ブログ",
+                navAbout: "私について",
+                navContact: "連絡先",
+                footerRights: "© 2024 白菊. 全著作権所有.",
+                pageTitle: "日本のラーメン旅 | 白菊",
+                postTitle: "日本のラーメン旅",
+                postDate: "2025年7月9日公開",
+                shops: [
+                    { id: 'shop-echan', name: 'えーちゃん食堂' },
+                    { id: 'shop-yoshimuraya', name: '家系総本山 吉村家' },
+                    { id: 'shop-sunada', name: '麺創庵 砂田' },
+                    { id: 'shop-soranoiro', name: 'そらのいろ ニッポン' },
+                    { id: 'shop-ajisai', name: 'らぁ麺 紫陽花' },
+                    { id: 'shop-narutoya', name: 'なるとや' }
+                ],
+                postContent: `
+                    <div id="shop-echan" class="shop-section scroll-mt-24">
+                        <img src="https://images.rigyokusei.me/82EF0F42CF884ADFD88E372DB64AFE44.png" alt="えーちゃん食堂のラーメン" class="w-full rounded-lg shadow-md mb-6">
+                        <h2 class="shop-name">えーちゃん食堂</h2>
+                        <p><strong>場所:</strong> 〒153-0064 東京都目黒区下目黒３丁目４−６ サンライズ目黒</p>
+                        <p><strong>採点:</strong> 5/5</p>
+                        <p><strong>コメント:</strong> 早朝しか営業しない人気店。寒い風の中、6時にはすでに30人以上の行列ができており、8時前には完売してしまいます。醤油、鶏油、煮干しの組み合わせは、淡麗系でありながら決して薄味ではなく、鶏油がコクを、煮干しが後味の深みを与えています。燻製チャーシューがスモーキーな香りを添えています。中太麺はコシがあり、味もよく絡んでいて、やはり歯ごたえのある太麺が好きだと再認識しました。個人的にはチャーシューが少し脂っこく感じられましたが、それでも香ばしくて美味しかったです。満点、文句なしの美味しさでした。</p>
+                    </div>
+                    <hr class="my-12 border-gray-300 dark:border-gray-600">
+                    <div id="shop-yoshimuraya" class="shop-section scroll-mt-24">
+                        <img src="https://images.rigyokusei.me/yoshimuraya.png" alt="家系総本山 吉村家のラーメン" class="w-full rounded-lg shadow-md mb-6">
+                        <h2 class="shop-name">家系総本山 吉村家</h2>
+                        <p><strong>場所:</strong> 〒220-0073 神奈川県横浜市西区岡野１丁目６−４</p>
+                        <p><strong>採点:</strong> 3.8/5</p>
+                        <p><strong>コメント:</strong> 家系ラーメンの元祖。三回行きました。数年前に評判を聞いて訪れた時は、鶏油の香りが良く、脂っこくなく、後味も最高で、大きな衝撃を受けました。移転後もその味が忘れられず、二度訪れましたが、以前ほどではなく、味の印象が薄れ、普通の濃さでもかなりしょっぱく感じました。それでも平均以上のレベルではあるので、行列がなければ食べてもいいかもしれませんが、毎回1時間以上並ぶことを考えると、もう行かないと思います。</p>
+                    </div>
+                    <hr class="my-12 border-gray-300 dark:border-gray-600">
+                    <div id="shop-sunada" class="shop-section scroll-mt-24">
+                        <img src="https://images.rigyokusei.me/mensouan_sunada.png" alt="麺創庵 砂田のラーメン" class="w-full rounded-lg shadow-md mb-6">
+                        <h2 class="shop-name">麺創庵 砂田</h2>
+                        <p><strong>場所:</strong> 〒170-0002 東京都豊島区巣鴨４丁目２４−６ 富士ビル 12</p>
+                        <p><strong>採点:</strong> 4/5</p>
+                        <p><strong>コメント:</strong> こちらも東京百名店の一つ。行列を心配して雨の日に早めに行きましたが、しばらく待っても私が一番乗りでした。裏メニューの「裏醤油」を注文。通常の醤油味を知らないので、「裏醤油」単体での感想ですが、スープの味は確かによく、醤油と魚介の旨味が印象的でした。しかし、麺とスープの絡みが悪く、麺がスープの味を拾わず、少し物足りない感じでした。残念ながら4点とさせていただきます。やはり行列はある程度正直なものですね。</p>
+                    </div>
+                    <hr class="my-12 border-gray-300 dark:border-gray-600">
+                    <div id="shop-soranoiro" class="shop-section scroll-mt-24">
+                        <img src="https://images.rigyokusei.me/soranoiro_nippon.png" alt="そらのいろ ニッポンのラーメン" class="w-full rounded-lg shadow-md mb-6">
+                        <h2 class="shop-name">そらのいろ ニッポン</h2>
+                        <p><strong>場所:</strong> 〒100-0005 東京都千代田区丸の内１丁目９−１ 東京駅一番街地下ラーメンストリート</p>
+                        <p><strong>採点:</strong> 4.2/5</p>
+                        <p><strong>コメント:</strong> 東京駅の地下ラーメンストリートにあるお店で、食事時にはかなりの行列ができます。このような場所にある店にはあまり期待していませんでしたが、出てきたものは意外と良かったです。ラーメン全体に特に際立った部分はありませんが、各要素が平均以上のレベルでした。</p>
+                    </div>
+                    <hr class="my-12 border-gray-300 dark:border-gray-600">
+                    <div id="shop-ajisai" class="shop-section scroll-mt-24">
+                        <img src="https://images.rigyokusei.me/ajisai.png" alt="らぁ麺 紫陽花のラーメン" class="w-full rounded-lg shadow-md mb-6">
+                        <h2 class="shop-name">らぁ麺 紫陽花</h2>
+                        <p><strong>場所:</strong> 〒454-0054 愛知県名古屋市中川区八剱町４丁目２０−１</p>
+                        <p><strong>採点:</strong> 4.6/5</p>
+                        <p><strong>コメント:</strong> 名古屋で一番と名高い店でしょうか？優先予約をしましたが、午後3時に着いてもまだ列がありました。提供が非常に遅く、入店してから少なくとも15分は待ったと思いますが、幸いラーメンは期待を裏切りませんでした。スープの味付けは非常に正確で、トッピングも豊富で高レベル。麺については数ヶ月経った今では思い出せませんが、特に目立ってはいなかったものの、足を引っ張ることもありませんでした。総じて、非常に優れた醤油ラーメンです。</p>
+                    </div>
+                    <hr class="my-12 border-gray-300 dark:border-gray-600">
+                    <div id="shop-narutoya" class="shop-section scroll-mt-24">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+                            <img src="https://images.rigyokusei.me/narutoya_shio.png" alt="なるとやの塩ラーメン" class="w-full rounded-lg shadow-md">
+                            <img src="https://images.rigyokusei.me/narutoya_shouyu.png" alt="なるとやの醤油ラーメン" class="w-full rounded-lg shadow-md">
+                        </div>
+                        <h2 class="shop-name">なるとや</h2>
+                        <p><strong>場所:</strong> 〒460-0008 愛知県名古屋市中区栄４丁目７−１３</p>
+                        <p><strong>採点:</strong> 4.2/5</p>
+                        <p><strong>コメント:</strong> ライブの後、近くで評価の高い店を探しました。ラーメンEAST百名店の一つでもあります。夜9時過ぎに着きましたが、観光客はおらず、満席でしたがほとんど並ぶ必要はありませんでした。塩と醤油の2杯を連続で注文。ベースはどちらも魚介スープで、塩または醤油で味付けされています。どちらもなかなか美味しかったですが、個人的にはより濃厚な醤油の方が好みでした。近くに住んでいたら、たぶん頻繁に来るでしょう。</p>
+                    </div>
+                    <hr class="my-8">
+                    <p class="text-center text-gray-500 dark:text-gray-400"><em>つづく...</em></p>
+                `
+            },
+            en: {
+                name: "Shiragiku",
+                navBlog: "Blog",
+                navAbout: "About",
+                navContact: "Contact",
+                footerRights: "© 2024 Shiragiku. All Rights Reserved.",
+                pageTitle: "Japan Ramen Tour | Shiragiku",
+                postTitle: "Japan Ramen Tour",
+                postDate: "Published on July 9, 2025",
+                shops: [
+                    { id: 'shop-echan', name: 'E-chan Shokudo' },
+                    { id: 'shop-yoshimuraya', name: 'Iekei Souhonzan Yoshimuraya' },
+                    { id: 'shop-sunada', name: 'Mensouan Sunada' },
+                    { id: 'shop-soranoiro', name: 'Soranoiro NIPPON' },
+                    { id: 'shop-ajisai', name: 'Ramen Ajisai' },
+                    { id: 'shop-narutoya', name: 'Narutoya' }
+                ],
+                postContent: `
+                    <div id="shop-echan" class="shop-section scroll-mt-24">
+                        <img src="https://images.rigyokusei.me/82EF0F42CF884ADFD88E372DB64AFE44.png" alt="Ramen from E-chan Shokudo" class="w-full rounded-lg shadow-md mb-6">
+                        <h2 class="shop-name">E-chan Shokudo</h2>
+                        <p><strong>Location:</strong> 〒153-0064 Sunrise Meguro, 3-chōme-4-6 Shimomeguro, Meguro City, Tokyo</p>
+                        <p><strong>Rating:</strong> 5/5</p>
+                        <p><strong>Evaluation:</strong> A popular shop that only opens in the early morning. There were already over 30 people in line when I arrived at 6 AM in the cold wind, and they sell out and close before 8 AM. The combination of soy sauce, chicken oil, and niboshi (dried sardines), although a light "tanrei" style, was not bland at all. The chicken oil provided richness, and the niboshi gave it a deep aftertaste; the smoked chashu added a smoky fragrance. The medium-thick noodles were chewy and flavorful, confirming that I really prefer thicker noodles with more texture. The only minor downside for me was that the chashu was a bit greasy, although it was indeed very aromatic. Full marks, nothing more to say, it was delicious.</p>
+                    </div>
+                    <hr class="my-12 border-gray-300 dark:border-gray-600">
+                    <div id="shop-yoshimuraya" class="shop-section scroll-mt-24">
+                        <img src="https://images.rigyokusei.me/yoshimuraya.png" alt="Ramen from Iekei Souhonzan Yoshimuraya" class="w-full rounded-lg shadow-md mb-6">
+                        <h2 class="shop-name">Iekei Souhonzan Yoshimuraya</h2>
+                        <p><strong>Location:</strong> 1-chōme-6-4 Okano, Nishi Ward, Yokohama, Kanagawa 220-0073</p>
+                        <p><strong>Rating:</strong> 3.8/5</p>
+                        <p><strong>Evaluation:</strong> The origin of Iekei ramen; I've been there three times. When I first visited years ago, drawn by its reputation, I was deeply impressed. The chicken oil was fragrant but not greasy, with an unforgettable aftertaste. After the shop relocated, I went back twice because I missed the taste, but it didn't feel as good as before. The flavor was less impressive, and even the regular soup concentration felt very salty. However, it's still above average, so it's worth a try if there's no queue. But given the hour-plus wait every time, I probably won't go again.</p>
+                    </div>
+                    <hr class="my-12 border-gray-300 dark:border-gray-600">
+                    <div id="shop-sunada" class="shop-section scroll-mt-24">
+                        <img src="https://images.rigyokusei.me/mensouan_sunada.png" alt="Ramen from Mensouan Sunada" class="w-full rounded-lg shadow-md mb-6">
+                        <h2 class="shop-name">Mensouan Sunada</h2>
+                        <p><strong>Location:</strong> 〒170-0002 Fuji Building 12, 4-chōme-24-6 Sugamo, Toshima City, Tokyo</p>
+                        <p><strong>Rating:</strong> 4/5</p>
+                        <p><strong>Evaluation:</strong> Also one of Tokyo's top 100 ramen shops. Worried about the queue, I went early on a rainy day, only to find I was the first one there after waiting for a while. I ordered the hidden menu item, "Ura Shoyu." Since I haven't tried their regular shoyu, speaking only for the "Ura Shoyu," the soup flavor was indeed very good, with a deep impression from the umami of soy sauce and seafood. However, the noodles and soup didn't combine well; the noodles couldn't hold the soup's flavor and tasted a bit bland. Therefore, I can only regretfully give it 4 points. It seems the queue length is a reliable indicator to some extent.</p>
+                    </div>
+                    <hr class="my-12 border-gray-300 dark:border-gray-600">
+                    <div id="shop-soranoiro" class="shop-section scroll-mt-24">
+                        <img src="https://images.rigyokusei.me/soranoiro_nippon.png" alt="Ramen from Soranoiro NIPPON" class="w-full rounded-lg shadow-md mb-6">
+                        <h2 class="shop-name">Soranoiro NIPPON</h2>
+                        <p><strong>Location:</strong> 〒100-0005 Tokyo Station Ichibangai B1F Ramen Street, 1-chōme-9-1 Marunouchi, Chiyoda City, Tokyo</p>
+                        <p><strong>Rating:</strong> 4.2/5</p>
+                        <p><strong>Evaluation:</strong> A shop located in the underground Ramen Street of Tokyo Station, with quite a long queue during meal times. I didn't have high hopes for a shop in such a location, but the product that was served was surprisingly good. Overall, no part of the ramen was particularly outstanding, but every component was above average.</p>
+                    </div>
+                    <hr class="my-12 border-gray-300 dark:border-gray-600">
+                    <div id="shop-ajisai" class="shop-section scroll-mt-24">
+                        <img src="https://images.rigyokusei.me/ajisai.png" alt="Ramen from Ramen Ajisai" class="w-full rounded-lg shadow-md mb-6">
+                        <h2 class="shop-name">Ramen Ajisai</h2>
+                        <p><strong>Location:</strong> 〒454-0054 4-chōme-20-1 Yatsurugichō, Nakagawa Ward, Nagoya, Aichi</p>
+                        <p><strong>Rating:</strong> 4.6/5</p>
+                        <p><strong>Evaluation:</strong> Perhaps the number one acclaimed shop in Nagoya? I made a priority reservation, but still had to queue when I arrived at 3 PM. The service was very slow; I think I waited at least fifteen minutes after being seated, but luckily the ramen did not disappoint. The soup was seasoned very precisely, and the toppings were rich and of high quality. As for the noodles, I can't recall them after a few months, so they probably weren't too outstanding, but at least they didn't drag it down. Overall, it's a very outstanding shoyu ramen.</p>
+                    </div>
+                    <hr class="my-12 border-gray-300 dark:border-gray-600">
+                    <div id="shop-narutoya" class="shop-section scroll-mt-24">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+                            <img src="https://images.rigyokusei.me/narutoya_shio.png" alt="Narutoya's Shio Ramen" class="w-full rounded-lg shadow-md">
+                            <img src="https://images.rigyokusei.me/narutoya_shouyu.png" alt="Narutoya's Shouyu Ramen" class="w-full rounded-lg shadow-md">
+                        </div>
+                        <h2 class="shop-name">Narutoya</h2>
+                        <p><strong>Location:</strong> 〒460-0008 4-chōme-7-13 Sakae, Naka Ward, Nagoya, Aichi</p>
+                        <p><strong>Rating:</strong> 4.2/5</p>
+                        <p><strong>Evaluation:</strong> After a live show, I looked for a highly-rated place nearby, which also happens to be one of the Ramen EAST Top 100 shops. I arrived after 9 PM; there were no tourists, and it was a full house, but there was basically no need to queue. I ordered both the salt and soy sauce bowls back-to-back. The base for both is a fish broth, seasoned with either salt or soy sauce. Both were quite good, but I personally preferred the richer soy sauce version. If I lived nearby, I'd probably come here often.</p>
+                    </div>
+                    <hr class="my-8">
+                    <p class="text-center text-gray-500 dark:text-gray-400"><em>To be continued...</em></p>
+                `
+            }
+        };
+
+        // --- 核心功能脚本 ---
+        const switchLanguage = (lang) => {
+            const currentLang = translations[lang] ? lang : 'zh';
+            const content = translations[currentLang];
+
+            document.documentElement.lang = currentLang === 'zh' ? 'zh-CN' : currentLang;
+            document.title = content.pageTitle;
+
+            document.querySelectorAll('[data-lang]').forEach(el => {
+                const key = el.getAttribute('data-lang');
+                if (content[key] !== undefined) {
+                    el.innerHTML = content[key];
+                }
+            });
+
+            generateNav(content.shops);
+            
+            lucide.createIcons();
+        };
+        
+        const navLinksContainer = document.getElementById('nav-links');
+        const generateNav = (shops) => {
+            navLinksContainer.innerHTML = ''; // 清空旧链接
+            shops.forEach(shop => {
+                const li = document.createElement('li');
+                const a = document.createElement('a');
+                a.href = `#${shop.id}`;
+                a.textContent = shop.name;
+                a.className = "block text-sm text-gray-600 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-all";
+                li.appendChild(a);
+                navLinksContainer.appendChild(li);
+            });
+        };
+
+        const sections = document.querySelectorAll('.shop-section');
+        const onScroll = () => {
+            // 120px offset to account for sticky header and give some buffer
+            const scrollPosition = window.scrollY + 120; 
+
+            let currentSectionId = null;
+            sections.forEach(section => {
+                if (section.offsetTop <= scrollPosition) {
+                    currentSectionId = section.getAttribute('id');
+                }
+            });
+
+            navLinksContainer.querySelectorAll('a').forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === `#${currentSectionId}`) {
+                    link.classList.add('active');
+                }
+            });
+        };
+        window.addEventListener('scroll', onScroll, { passive: true });
+
+
+        document.querySelectorAll('.lang-switch-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const lang = e.target.dataset.langBtn || e.target.textContent.toLowerCase().substring(0,2);
+                switchLanguage(lang);
+                localStorage.setItem('preferredLanguage', lang);
+                // After switching language, re-run the scroll check to update active state
+                setTimeout(onScroll, 0);
+            });
+        });
+        
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        mobileMenu.querySelectorAll('a, button').forEach(el => {
+            el.addEventListener('click', () => {
+                setTimeout(() => mobileMenu.classList.add('hidden'), 100);
+            });
+        });
+        
+        // --- 悬浮导航挂件逻辑 ---
+        const navWidget = document.getElementById('side-nav-widget');
+        const navToggleBtn = document.getElementById('nav-toggle-btn');
+        
+        // 默认收起
+        navWidget.classList.add('closed');
+
+        navToggleBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            navWidget.classList.toggle('closed');
+        });
+
+
+        // --- 初始化 ---
+        const preferredLanguage = localStorage.getItem('preferredLanguage') || 'zh';
+        switchLanguage(preferredLanguage);
+        lucide.createIcons(); // 初始加载图标
+        setTimeout(onScroll, 100); // Initial check
+    });
+    </script>
+
+</body>
+</html>
