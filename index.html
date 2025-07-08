@@ -79,7 +79,7 @@
             </p>
             <div class="mt-8 flex justify-center gap-4">
                 <a href="mailto:rigyokusei@gmail.com" class="bg-indigo-600 text-white font-semibold px-6 py-3 rounded-lg shadow-md hover:bg-indigo-700 transition-transform transform hover:scale-105" data-lang="contactMeBtn">联系我</a>
-                <a href="#projects" class="bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-200 font-semibold px-6 py-3 rounded-lg shadow-md hover:bg-gray-100 dark:hover:bg-gray-700 transition-transform transform hover:scale-105" data-lang="viewProjectsBtn">查看项目</a>
+                <a href="#about" class="bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-200 font-semibold px-6 py-3 rounded-lg shadow-md hover:bg-gray-100 dark:hover:bg-gray-700 transition-transform transform hover:scale-105" data-lang="viewProjectsBtn">了解更多</a>
             </div>
         </section>
 
@@ -91,9 +91,9 @@
                     <!-- 示例文章卡片 -->
                     <div class="bg-white dark:bg-gray-900 rounded-lg shadow-lg overflow-hidden transform hover:-translate-y-1 transition-transform duration-300">
                         <div class="p-6">
-                            <p class="text-sm text-gray-500 dark:text-gray-400 mb-2" data-lang="post1Date">2025年7月8日</p>
-                            <h3 class="text-2xl font-bold mb-3" data-lang="post1Title">我的第一篇博客文章</h3>
-                            <p class="text-gray-600 dark:text-gray-400 mb-6" data-lang="post1Summary">这是我的第一篇博客文章的摘要。在这里，我可以分享我的想法、学习笔记或者生活中的趣事...</p>
+                            <p class="text-sm text-gray-500 dark:text-gray-400 mb-2" data-lang="post1Date">2025年7月9日</p>
+                            <h3 class="text-2xl font-bold mb-3" data-lang="post1Title">日本拉面之旅</h3>
+                            <p class="text-gray-600 dark:text-gray-400 mb-6" data-lang="post1Summary">我的日本拉面寻味之旅，持续更新...</p>
                             <a href="post-1.html" class="font-semibold text-indigo-600 dark:text-indigo-400 hover:underline" data-lang="readMoreBtn">阅读全文 &rarr;</a>
                         </div>
                     </div>
@@ -126,21 +126,17 @@
                     </div>
                 </div>
 
-                <!-- 项目 (子版块) -->
+                <!-- 小玩具 (子版块) -->
                 <div id="projects" class="mb-16">
-                    <h3 class="text-2xl font-bold text-center mb-10" data-lang="projectsTitle">我的项目</h3>
-                    <div class="max-w-lg mx-auto bg-white dark:bg-gray-800 rounded-lg shadow-lg p-8 text-center">
-                        <div class="p-6 border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg">
-                            <i data-lucide="folder-git-2" class="w-16 h-16 mx-auto text-gray-400 dark:text-gray-500 mb-4"></i>
-                            <h4 class="text-xl font-bold mb-2" data-lang="projectPlaceholderTitle">敬请期待</h4>
-                            <p class="text-gray-600 dark:text-gray-400" data-lang="projectPlaceholderDesc">更多项目正在制作中，很快就会与大家见面！</p>
-                        </div>
+                    <h3 class="text-2xl font-bold text-center mb-10" data-lang="projectsTitle">小玩具</h3>
+                    <div id="projects-container" class="max-w-4xl mx-auto grid md:grid-cols-2 gap-8">
+                        <!-- 项目卡片将由JS动态生成 -->
                     </div>
                 </div>
 
-                <!-- 技术栈 (子版块) -->
+                <!-- 技能 (子版块) -->
                 <div id="skills">
-                    <h3 class="text-2xl font-bold text-center mb-10" data-lang="skillsTitle">技术栈</h3>
+                    <h3 class="text-2xl font-bold text-center mb-10" data-lang="skillsTitle">技能</h3>
                     <div class="max-w-4xl mx-auto flex flex-wrap justify-center gap-4" data-lang="skillsList"></div>
                 </div>
 
@@ -183,11 +179,11 @@
                 heroTitle: '你好，我是 <span class="text-indigo-600 dark:text-indigo-400">白菊</span>',
                 heroSubtitle: "CTRL-CV工程师 / 管人痴 / 骑空士<br>CN / JP / EN",
                 contactMeBtn: "联系我",
-                viewProjectsBtn: "查看项目",
+                viewProjectsBtn: "了解更多",
                 blogTitle: "最新文章",
-                post1Date: "2025年7月8日",
-                post1Title: "我的第一篇博客文章",
-                post1Summary: "这是我的第一篇博客文章的摘要。在这里，我可以分享我的想法、学习笔记或者生活中的趣事...",
+                post1Date: "2025年7月9日",
+                post1Title: "日本拉面之旅",
+                post1Summary: "我的日本拉面寻味之旅，持续更新...",
                 readMoreBtn: "阅读全文 &rarr;",
                 aboutTitle: "关于我",
                 interestsTitle: "兴趣爱好",
@@ -204,10 +200,24 @@
                 gbfLinks: [
                     { url: 'https://game.granbluefantasy.jp/#profile/19835985', icon: 'gamepad-2', label: '游戏内主页' }
                 ],
-                projectsTitle: "我的项目",
-                projectPlaceholderTitle: "敬请期待",
-                projectPlaceholderDesc: "更多项目正在制作中，很快就会与大家见面！",
-                skillsTitle: "技术栈",
+                projectsTitle: "小玩具",
+                projects: [
+                    {
+                        title: "NGA-CLI",
+                        description: "一个命令行的NGA论坛浏览器，让你在终端里也能摸鱼刷论坛。",
+                        url: "https://github.com/gyokusei/nga-cli",
+                        icon: "terminal-square",
+                        linkText: "在 GitHub 上查看"
+                    },
+                    {
+                        title: "古战场贡献可视化工具",
+                        description: "一个用于《碧蓝幻想》古战场活动贡献度监控和可视化的网页工具。",
+                        url: "https://gyokusei.github.io/gbf-monitor/",
+                        icon: "line-chart",
+                        linkText: "访问网页"
+                    }
+                ],
+                skillsTitle: "技能",
                 skills: ["Java", "Kotlin", "MySQL"],
                 contactTitle: "与我联系",
                 contactDesc: "有任何事项请与我联系。",
@@ -223,11 +233,11 @@
                 heroTitle: 'こんにちは、<span class="text-indigo-600 dark:text-indigo-400">白菊</span>です',
                 heroSubtitle: "CTRL-CVエンジニア / VTuberファン / 騎空士<br>CN / JP / EN",
                 contactMeBtn: "連絡する",
-                viewProjectsBtn: "プロジェクトを見る",
+                viewProjectsBtn: "もっと詳しく",
                 blogTitle: "最新記事",
-                post1Date: "2025年7月8日",
-                post1Title: "私の最初のブログ記事",
-                post1Summary: "これは私の最初のブログ記事の要約です。ここでは、私の考え、学習ノート、または生活の中の面白いことを共有できます...",
+                post1Date: "2025年7月9日",
+                post1Title: "日本のラーメン旅",
+                post1Summary: "私の日本のラーメン探訪、更新中…",
                 readMoreBtn: "続きを読む &rarr;",
                 aboutTitle: "私について",
                 interestsTitle: "趣味",
@@ -244,10 +254,24 @@
                 gbfLinks: [
                     { url: 'https://game.granbluefantasy.jp/#profile/19835985', icon: 'gamepad-2', label: 'ゲーム内プロフィール' }
                 ],
-                projectsTitle: "私のプロジェクト",
-                projectPlaceholderTitle: "乞うご期待",
-                projectPlaceholderDesc: "更なるプロジェクトを準備中です。まもなく公開します！",
-                skillsTitle: "技術スタック",
+                projectsTitle: "遊びで作ったもの",
+                projects: [
+                    {
+                        title: "NGA-CLI",
+                        description: "ターミナルでNGAフォーラムを閲覧するためのコマンドラインブラウザ。",
+                        url: "https://github.com/gyokusei/nga-cli",
+                        icon: "terminal-square",
+                        linkText: "GitHubで見る"
+                    },
+                    {
+                        title: "古戦場貢献度可視化ツール",
+                        description: "「グランブルーファンタジー」のイベント「決戦！星の古戦場」の貢献度を可視化するためのウェブツール。",
+                        url: "https://gyokusei.github.io/gbf-monitor/",
+                        icon: "line-chart",
+                        linkText: "ウェブサイトへ"
+                    }
+                ],
+                skillsTitle: "スキル",
                 skills: ["Java", "Kotlin", "MySQL"],
                 contactTitle: "お問い合わせ",
                 contactDesc: "ご用件がございましたら、お気軽にご連絡ください。",
@@ -263,11 +287,11 @@
                 heroTitle: 'Hi, I\'m <span class="text-indigo-600 dark:text-indigo-400">Shiragiku</span>',
                 heroSubtitle: "CTRL-CV Engineer / VTuber Enthusiast / Skyfarer<br>CN / JP / EN",
                 contactMeBtn: "Contact Me",
-                viewProjectsBtn: "View Projects",
+                viewProjectsBtn: "Learn More",
                 blogTitle: "Latest Posts",
-                post1Date: "July 8, 2025",
-                post1Title: "My First Blog Post",
-                post1Summary: "This is a summary of my first blog post. Here, I can share my thoughts, study notes, or interesting things from my life...",
+                post1Date: "July 9, 2025",
+                post1Title: "Japan Ramen Tour",
+                post1Summary: "My Japan ramen discovery tour, continuously updated...",
                 readMoreBtn: "Read More &rarr;",
                 aboutTitle: "About Me",
                 interestsTitle: "Interests",
@@ -284,10 +308,24 @@
                 gbfLinks: [
                     { url: 'https://game.granbluefantasy.jp/#profile/19835985', icon: 'gamepad-2', label: 'In-Game Profile' }
                 ],
-                projectsTitle: "My Projects",
-                projectPlaceholderTitle: "Coming Soon",
-                projectPlaceholderDesc: "More projects are in the works and will be shared shortly!",
-                skillsTitle: "Tech Stack",
+                projectsTitle: "Just for Fun",
+                projects: [
+                    {
+                        title: "NGA-CLI",
+                        description: "A command-line browser for the NGA forums, allowing you to browse in the terminal.",
+                        url: "https://github.com/gyokusei/nga-cli",
+                        icon: "terminal-square",
+                        linkText: "View on GitHub"
+                    },
+                    {
+                        title: "GBF Guild War Monitor",
+                        description: "A web tool for monitoring and visualizing contribution points for the 'Unite and Fight' event in Granblue Fantasy.",
+                        url: "https://gyokusei.github.io/gbf-monitor/",
+                        icon: "line-chart",
+                        linkText: "Visit Website"
+                    }
+                ],
+                skillsTitle: "Skills",
                 skills: ["Java", "Kotlin", "MySQL"],
                 contactTitle: "Get In Touch",
                 contactDesc: "Please feel free to contact me for any inquiries.",
@@ -298,26 +336,27 @@
 
         // --- 核心功能脚本 ---
         function switchLanguage(lang) {
-            document.documentElement.lang = lang === 'zh' ? 'zh-CN' : lang;
+            const currentLang = translations[lang] ? lang : 'zh';
+            document.documentElement.lang = currentLang === 'zh' ? 'zh-CN' : currentLang;
             
             document.querySelectorAll('[data-lang]').forEach(el => {
                 const key = el.getAttribute('data-lang');
-                if (translations[lang] && translations[lang][key]) {
-                    el.innerHTML = translations[lang][key];
+                if (translations[currentLang] && translations[currentLang][key]) {
+                    el.innerHTML = translations[currentLang][key];
                 }
             });
 
             document.querySelectorAll('[data-lang-alt]').forEach(el => {
                 const key = el.getAttribute('data-lang-alt');
-                if (translations[lang] && translations[lang][key]) {
-                    el.alt = translations[lang][key];
+                if (translations[currentLang] && translations[currentLang][key]) {
+                    el.alt = translations[currentLang][key];
                 }
             });
 
             const skillsContainer = document.querySelector('[data-lang="skillsList"]');
-            if (skillsContainer && translations[lang] && translations[lang].skills) {
+            if (skillsContainer && translations[currentLang] && translations[currentLang].skills) {
                 skillsContainer.innerHTML = ''; 
-                translations[lang].skills.forEach(skillText => {
+                translations[currentLang].skills.forEach(skillText => {
                     const skillElement = document.createElement('span');
                     skillElement.className = "bg-indigo-100 text-indigo-800 text-sm font-medium me-2 px-4 py-2 rounded-full dark:bg-indigo-900 dark:text-indigo-300";
                     skillElement.textContent = skillText;
@@ -328,8 +367,8 @@
             document.querySelectorAll('[data-lang-links]').forEach(container => {
                 const key = container.getAttribute('data-lang-links');
                 container.innerHTML = '';
-                if (translations[lang] && translations[lang][key]) {
-                    translations[lang][key].forEach(linkInfo => {
+                if (translations[currentLang] && translations[currentLang][key]) {
+                    translations[currentLang][key].forEach(linkInfo => {
                         const linkElement = document.createElement('a');
                         linkElement.href = linkInfo.url;
                         linkElement.target = '_blank';
@@ -348,14 +387,38 @@
                 }
             });
 
+            const projectsContainer = document.getElementById('projects-container');
+            if (projectsContainer && translations[currentLang] && translations[currentLang].projects) {
+                projectsContainer.innerHTML = '';
+                translations[currentLang].projects.forEach(project => {
+                    const card = `
+                        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden transform hover:-translate-y-1 transition-transform duration-300">
+                            <div class="p-6">
+                                <div class="flex items-center mb-4">
+                                    <i data-lucide="${project.icon}" class="w-8 h-8 text-indigo-500 mr-4"></i>
+                                    <h4 class="text-xl font-bold">${project.title}</h4>
+                                </div>
+                                <p class="text-gray-600 dark:text-gray-400 mb-4">${project.description}</p>
+                                <a href="${project.url}" target="_blank" rel="noopener noreferrer" class="font-semibold text-indigo-600 dark:text-indigo-400 hover:underline flex items-center">
+                                    ${project.linkText} <i data-lucide="arrow-right" class="w-4 h-4 ml-1"></i>
+                                </a>
+                            </div>
+                        </div>
+                    `;
+                    projectsContainer.innerHTML += card;
+                });
+            }
+
             document.querySelectorAll('.lang-switch-btn').forEach(btn => {
                 btn.classList.remove('active');
-                if (btn.textContent.toLowerCase().includes(lang) || (lang === 'zh' && (btn.textContent === 'ZH' || btn.textContent === '中文'))) {
+                if (btn.textContent.toLowerCase().includes(currentLang) || (currentLang === 'zh' && (btn.textContent === 'ZH' || btn.textContent === '中文'))) {
                     btn.classList.add('active');
                 }
             });
 
             lucide.createIcons();
+            // Store preference
+            localStorage.setItem('preferredLanguage', currentLang);
         }
 
         document.addEventListener('DOMContentLoaded', () => {
@@ -372,7 +435,8 @@
                 });
             });
 
-            switchLanguage('zh');
+            const preferredLanguage = localStorage.getItem('preferredLanguage') || 'zh';
+            switchLanguage(preferredLanguage);
         });
     </script>
 </body>
