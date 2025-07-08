@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>白菊 | 个人网站</title>
+    
+    <!-- 引入Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- 引入Inter, Noto Sans SC, Noto Sans JP 字体 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Noto+Sans+JP:wght@400;500;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <!-- 引入图标库 -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        /* 自定义样式 */
+        body {
+            font-family: 'Inter', 'Noto Sans SC', 'Noto Sans JP', sans-serif;
+        }
+        .lang-switch-btn.active {
+            color: #4f46e5; /* indigo-600 */
+            font-weight: 700;
+        }
+        .dark .lang-switch-btn.active {
+            color: #a5b4fc; /* indigo-400 */
+        }
+    </style>
+</head>
+<body class="bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-200 transition-colors duration-300">
+
+    <!-- 导航栏 -->
+    <header class="bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm sticky top-0 z-50 shadow-sm">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="index.html" class="text-2xl font-bold text-indigo-600 dark:text-indigo-400" data-lang="name">白菊</a>
+            <nav class="hidden md:flex items-center space-x-8">
+                <a href="#blog" class="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors" data-lang="navBlog">博客</a>
+                <a href="#about" class="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors" data-lang="navAbout">关于我</a>
+                <a href="#contact" class="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors" data-lang="navContact">联系我</a>
+                <!-- 语言切换 -->
+                <div class="flex space-x-3 pl-4 border-l border-gray-200 dark:border-gray-700">
+                    <button class="lang-switch-btn" onclick="switchLanguage('zh')">ZH</button>
+                    <button class="lang-switch-btn" onclick="switchLanguage('ja')">JA</button>
+                    <button class="lang-switch-btn" onclick="switchLanguage('en')">EN</button>
+                </div>
+            </nav>
+            <button id="mobile-menu-button" class="md:hidden p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500">
+                <i data-lucide="menu"></i>
+            </button>
+        </div>
+        <!-- 移动端菜单 -->
+        <div id="mobile-menu" class="hidden md:hidden px-6 pb-4">
+            <a href="#blog" class="block py-2 text-center hover:bg-gray-100 dark:hover:bg-gray-800 rounded-md" data-lang="navBlog">博客</a>
+            <a href="#about" class="block py-2 text-center hover:bg-gray-100 dark:hover:bg-gray-800 rounded-md" data-lang="navAbout">关于我</a>
+            <a href="#contact" class="block py-2 text-center hover:bg-gray-100 dark:hover:bg-gray-800 rounded-md" data-lang="navContact">联系我</a>
+            <div class="flex justify-center space-x-4 pt-4 mt-4 border-t border-gray-200 dark:border-gray-700">
+                <button class="lang-switch-btn" onclick="switchLanguage('zh')">中文</button>
+                <button class="lang-switch-btn" onclick="switchLanguage('ja')">日本語</button>
+                <button class="lang-switch-btn" onclick="switchLanguage('en')">English</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- 主体内容 -->
+    <main>
+        <!-- 英雄/介绍部分 -->
+        <section id="hero" class="container mx-auto px-6 py-20 text-center">
+            <img src="./images/avatar.png" 
+                 onerror="this.onerror=null;this.src='https://placehold.co/128x128/6366f1/ffffff?text=头像';" 
+                 alt="头像" 
+                 data-lang-alt="avatarAlt"
+                 class="w-32 h-32 rounded-full mx-auto mb-6 shadow-lg object-cover">
+            <h1 class="text-4xl md:text-6xl font-bold mb-4" data-lang="heroTitle">你好，我是 <span class="text-indigo-600 dark:text-indigo-400" data-lang="name">白菊</span></h1>
+            <p class="text-lg md:text-xl text-gray-600 dark:text-gray-400 max-w-3xl mx-auto leading-relaxed" data-lang="heroSubtitle">
+                <!-- Subtitle content is now dynamically inserted by JS -->
+            </p>
+            <div class="mt-8 flex justify-center gap-4">
+                <a href="mailto:rigyokusei@gmail.com" class="bg-indigo-600 text-white font-semibold px-6 py-3 rounded-lg shadow-md hover:bg-indigo-700 transition-transform transform hover:scale-105" data-lang="contactMeBtn">联系我</a>
+                <a href="#projects" class="bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-200 font-semibold px-6 py-3 rounded-lg shadow-md hover:bg-gray-100 dark:hover:bg-gray-700 transition-transform transform hover:scale-105" data-lang="viewProjectsBtn">查看项目</a>
+            </div>
+        </section>
+
+        <!-- 博客 -->
+        <section id="blog" class="py-20 bg-gray-100 dark:bg-gray-800">
+            <div class="container mx-auto px-6">
+                <h2 class="text-3xl font-bold text-center mb-12" data-lang="blogTitle">最新文章</h2>
+                <div class="max-w-4xl mx-auto grid md:grid-cols-1 gap-8">
+                    <!-- 示例文章卡片 -->
+                    <div class="bg-white dark:bg-gray-900 rounded-lg shadow-lg overflow-hidden transform hover:-translate-y-1 transition-transform duration-300">
+                        <div class="p-6">
+                            <p class="text-sm text-gray-500 dark:text-gray-400 mb-2" data-lang="post1Date">2025年7月8日</p>
+                            <h3 class="text-2xl font-bold mb-3" data-lang="post1Title">我的第一篇博客文章</h3>
+                            <p class="text-gray-600 dark:text-gray-400 mb-6" data-lang="post1Summary">这是我的第一篇博客文章的摘要。在这里，我可以分享我的想法、学习笔记或者生活中的趣事...</p>
+                            <a href="post-1.html" class="font-semibold text-indigo-600 dark:text-indigo-400 hover:underline" data-lang="readMoreBtn">阅读全文 &rarr;</a>
+                        </div>
+                    </div>
+                    <!-- 您可以在这里添加更多文章卡片 -->
+                </div>
+            </div>
+        </section>
+
+        <!-- 关于我 (容器) -->
+        <section id="about" class="py-20">
+            <div class="container mx-auto px-6">
+                <h2 class="text-3xl font-bold text-center mb-12" data-lang="aboutTitle">关于我</h2>
+                
+                <!-- 兴趣爱好 (子版块) -->
+                <div id="interests" class="mb-16">
+                    <h3 class="text-2xl font-bold text-center mb-10" data-lang="interestsTitle">兴趣爱好</h3>
+                    <div class="max-w-5xl mx-auto grid md:grid-cols-2 gap-12 items-start">
+                        <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg flex flex-col h-full">
+                            <img src="./images/inui-toko.png" alt="戌亥とこ" data-lang-alt="tokoAlt" class="w-full h-48 object-cover rounded-md mb-4">
+                            <h4 class="text-xl font-bold mb-2" data-lang="tokoName">戌亥とこ</h4>
+                            <p class="text-gray-500 dark:text-gray-400 text-sm mb-4" data-lang="tokoSubtitle">彩虹社所属VTuber</p>
+                            <div data-lang-links="tokoLinks" class="flex items-center gap-4"></div>
+                        </div>
+                        <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg flex flex-col h-full">
+                            <img src="./images/granblue-fantasy.png" alt="碧蓝幻想" data-lang-alt="gbfAlt" class="w-full h-48 object-cover rounded-md mb-4">
+                            <h4 class="text-xl font-bold mb-2" data-lang="gbfName">碧蓝幻想</h4>
+                            <p class="text-gray-500 dark:text-gray-400 text-sm mb-4" data-lang="gbfSubtitle">王道幻想RPG</p>
+                            <div data-lang-links="gbfLinks" class="flex items-center gap-4"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 项目 (子版块) -->
+                <div id="projects" class="mb-16">
+                    <h3 class="text-2xl font-bold text-center mb-10" data-lang="projectsTitle">我的项目</h3>
+                    <div class="max-w-lg mx-auto bg-white dark:bg-gray-800 rounded-lg shadow-lg p-8 text-center">
+                        <div class="p-6 border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg">
+                            <i data-lucide="folder-git-2" class="w-16 h-16 mx-auto text-gray-400 dark:text-gray-500 mb-4"></i>
+                            <h4 class="text-xl font-bold mb-2" data-lang="projectPlaceholderTitle">敬请期待</h4>
+                            <p class="text-gray-600 dark:text-gray-400" data-lang="projectPlaceholderDesc">更多项目正在制作中，很快就会与大家见面！</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 技术栈 (子版块) -->
+                <div id="skills">
+                    <h3 class="text-2xl font-bold text-center mb-10" data-lang="skillsTitle">技术栈</h3>
+                    <div class="max-w-4xl mx-auto flex flex-wrap justify-center gap-4" data-lang="skillsList"></div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- 联系我 -->
+        <section id="contact" class="py-20 bg-gray-100 dark:bg-gray-800">
+            <div class="container mx-auto px-6 text-center">
+                <h2 class="text-3xl font-bold mb-4" data-lang="contactTitle">与我联系</h2>
+                <p class="text-gray-600 dark:text-gray-400 mb-8 max-w-2xl mx-auto" data-lang="contactDesc">有任何事项请与我联系。</p>
+                <a href="mailto:rigyokusei@gmail.com" class="bg-indigo-600 text-white font-semibold px-8 py-4 rounded-lg shadow-lg hover:bg-indigo-700 transition-transform transform hover:scale-105 inline-block" data-lang="sendEmailBtn">发送邮件</a>
+            </div>
+        </section>
+    </main>
+
+    <!-- 页脚 -->
+    <footer class="bg-white dark:bg-gray-900">
+        <div class="container mx-auto px-6 py-8">
+            <div class="flex flex-col items-center sm:flex-row sm:justify-between">
+                <p class="text-sm text-gray-500 dark:text-gray-400" data-lang="footerRights">© 2024 白菊. 保留所有权利.</p>
+                <div class="flex mt-4 sm:mt-0 -mx-2">
+                    <a href="https://github.com/gyokusei" target="_blank" rel="noopener noreferrer" class="mx-2 text-gray-500 hover:text-indigo-600 dark:hover:text-indigo-400" aria-label="GitHub"><i data-lucide="github" class="w-5 h-5"></i></a>
+                    <a href="https://x.com/srgksrgk" target="_blank" rel="noopener noreferrer" class="mx-2 text-gray-500 hover:text-indigo-600 dark:hover:text-indigo-400" aria-label="Twitter"><i data-lucide="twitter" class="w-5 h-5"></i></a>
+                    <a href="https://www.linkedin.com/in/玉清-李-755428317" target="_blank" rel="noopener noreferrer" class="mx-2 text-gray-500 hover:text-indigo-600 dark:hover:text-indigo-400" aria-label="LinkedIn"><i data-lucide="linkedin" class="w-5 h-5"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // --- 多语言翻译数据 ---
+        const translations = {
+            zh: {
+                name: "白菊",
+                navBlog: "博客",
+                navAbout: "关于我",
+                navContact: "联系我",
+                avatarAlt: "头像",
+                heroTitle: '你好，我是 <span class="text-indigo-600 dark:text-indigo-400">白菊</span>',
+                heroSubtitle: "CTRL-CV工程师 / 管人痴 / 骑空士<br>CN / JP / EN",
+                contactMeBtn: "联系我",
+                viewProjectsBtn: "查看项目",
+                blogTitle: "最新文章",
+                post1Date: "2025年7月8日",
+                post1Title: "我的第一篇博客文章",
+                post1Summary: "这是我的第一篇博客文章的摘要。在这里，我可以分享我的想法、学习笔记或者生活中的趣事...",
+                readMoreBtn: "阅读全文 &rarr;",
+                aboutTitle: "关于我",
+                interestsTitle: "兴趣爱好",
+                tokoAlt: "戌亥とこ",
+                tokoName: "戌亥とこ",
+                tokoSubtitle: "彩虹社所属VTuber",
+                tokoLinks: [
+                    { url: 'https://x.com/inui_toko', icon: 'twitter', label: 'X (Twitter)' },
+                    { url: 'https://www.youtube.com/channel/UCXRlIK3Cw_TJIQC5kSJJQMg', icon: 'youtube', label: 'YouTube' }
+                ],
+                gbfAlt: "碧蓝幻想",
+                gbfName: "碧蓝幻想",
+                gbfSubtitle: "王道幻想RPG",
+                gbfLinks: [
+                    { url: 'https://game.granbluefantasy.jp/#profile/19835985', icon: 'gamepad-2', label: '游戏内主页' }
+                ],
+                projectsTitle: "我的项目",
+                projectPlaceholderTitle: "敬请期待",
+                projectPlaceholderDesc: "更多项目正在制作中，很快就会与大家见面！",
+                skillsTitle: "技术栈",
+                skills: ["Java", "Kotlin", "MySQL"],
+                contactTitle: "与我联系",
+                contactDesc: "有任何事项请与我联系。",
+                sendEmailBtn: "发送邮件",
+                footerRights: "© 2024 白菊. 保留所有权利.",
+            },
+            ja: {
+                name: "白菊",
+                navBlog: "ブログ",
+                navAbout: "私について",
+                navContact: "連絡先",
+                avatarAlt: "アバター",
+                heroTitle: 'こんにちは、<span class="text-indigo-600 dark:text-indigo-400">白菊</span>です',
+                heroSubtitle: "CTRL-CVエンジニア / VTuberファン / 騎空士<br>CN / JP / EN",
+                contactMeBtn: "連絡する",
+                viewProjectsBtn: "プロジェクトを見る",
+                blogTitle: "最新記事",
+                post1Date: "2025年7月8日",
+                post1Title: "私の最初のブログ記事",
+                post1Summary: "これは私の最初のブログ記事の要約です。ここでは、私の考え、学習ノート、または生活の中の面白いことを共有できます...",
+                readMoreBtn: "続きを読む &rarr;",
+                aboutTitle: "私について",
+                interestsTitle: "趣味",
+                tokoAlt: "戌亥とこ",
+                tokoName: "戌亥とこ",
+                tokoSubtitle: "にじさんじ所属VTuber",
+                tokoLinks: [
+                    { url: 'https://x.com/inui_toko', icon: 'twitter', label: 'X (Twitter)' },
+                    { url: 'https://www.youtube.com/channel/UCXRlIK3Cw_TJIQC5kSJJQMg', icon: 'youtube', label: 'YouTube' }
+                ],
+                gbfAlt: "グランブルーファンタジー",
+                gbfName: "グランブルーファンタジー",
+                gbfSubtitle: "王道ファンタジーRPG",
+                gbfLinks: [
+                    { url: 'https://game.granbluefantasy.jp/#profile/19835985', icon: 'gamepad-2', label: 'ゲーム内プロフィール' }
+                ],
+                projectsTitle: "私のプロジェクト",
+                projectPlaceholderTitle: "乞うご期待",
+                projectPlaceholderDesc: "更なるプロジェクトを準備中です。まもなく公開します！",
+                skillsTitle: "技術スタック",
+                skills: ["Java", "Kotlin", "MySQL"],
+                contactTitle: "お問い合わせ",
+                contactDesc: "ご用件がございましたら、お気軽にご連絡ください。",
+                sendEmailBtn: "メールを送る",
+                footerRights: "© 2024 白菊. 全著作権所有.",
+            },
+            en: {
+                name: "Shiragiku",
+                navBlog: "Blog",
+                navAbout: "About",
+                navContact: "Contact",
+                avatarAlt: "Avatar",
+                heroTitle: 'Hi, I\'m <span class="text-indigo-600 dark:text-indigo-400">Shiragiku</span>',
+                heroSubtitle: "CTRL-CV Engineer / VTuber Enthusiast / Skyfarer<br>CN / JP / EN",
+                contactMeBtn: "Contact Me",
+                viewProjectsBtn: "View Projects",
+                blogTitle: "Latest Posts",
+                post1Date: "July 8, 2025",
+                post1Title: "My First Blog Post",
+                post1Summary: "This is a summary of my first blog post. Here, I can share my thoughts, study notes, or interesting things from my life...",
+                readMoreBtn: "Read More &rarr;",
+                aboutTitle: "About Me",
+                interestsTitle: "Interests",
+                tokoAlt: "Inui Toko",
+                tokoName: "Inui Toko",
+                tokoSubtitle: "VTuber from NIJISANJI",
+                tokoLinks: [
+                    { url: 'https://x.com/inui_toko', icon: 'twitter', label: 'X (Twitter)' },
+                    { url: 'https://www.youtube.com/channel/UCXRlIK3Cw_TJIQC5kSJJQMg', icon: 'youtube', label: 'YouTube' }
+                ],
+                gbfAlt: "Granblue Fantasy",
+                gbfName: "Granblue Fantasy",
+                gbfSubtitle: "A Classic Fantasy RPG",
+                gbfLinks: [
+                    { url: 'https://game.granbluefantasy.jp/#profile/19835985', icon: 'gamepad-2', label: 'In-Game Profile' }
+                ],
+                projectsTitle: "My Projects",
+                projectPlaceholderTitle: "Coming Soon",
+                projectPlaceholderDesc: "More projects are in the works and will be shared shortly!",
+                skillsTitle: "Tech Stack",
+                skills: ["Java", "Kotlin", "MySQL"],
+                contactTitle: "Get In Touch",
+                contactDesc: "Please feel free to contact me for any inquiries.",
+                sendEmailBtn: "Send an Email",
+                footerRights: "© 2024 Shiragiku. All Rights Reserved.",
+            }
+        };
+
+        // --- 核心功能脚本 ---
+        function switchLanguage(lang) {
+            document.documentElement.lang = lang === 'zh' ? 'zh-CN' : lang;
+            
+            document.querySelectorAll('[data-lang]').forEach(el => {
+                const key = el.getAttribute('data-lang');
+                if (translations[lang] && translations[lang][key]) {
+                    el.innerHTML = translations[lang][key];
+                }
+            });
+
+            document.querySelectorAll('[data-lang-alt]').forEach(el => {
+                const key = el.getAttribute('data-lang-alt');
+                if (translations[lang] && translations[lang][key]) {
+                    el.alt = translations[lang][key];
+                }
+            });
+
+            const skillsContainer = document.querySelector('[data-lang="skillsList"]');
+            if (skillsContainer && translations[lang] && translations[lang].skills) {
+                skillsContainer.innerHTML = ''; 
+                translations[lang].skills.forEach(skillText => {
+                    const skillElement = document.createElement('span');
+                    skillElement.className = "bg-indigo-100 text-indigo-800 text-sm font-medium me-2 px-4 py-2 rounded-full dark:bg-indigo-900 dark:text-indigo-300";
+                    skillElement.textContent = skillText;
+                    skillsContainer.appendChild(skillElement);
+                });
+            }
+
+            document.querySelectorAll('[data-lang-links]').forEach(container => {
+                const key = container.getAttribute('data-lang-links');
+                container.innerHTML = '';
+                if (translations[lang] && translations[lang][key]) {
+                    translations[lang][key].forEach(linkInfo => {
+                        const linkElement = document.createElement('a');
+                        linkElement.href = linkInfo.url;
+                        linkElement.target = '_blank';
+                        linkElement.rel = 'noopener noreferrer';
+                        linkElement.className = 'flex items-center gap-2 text-indigo-600 dark:text-indigo-400 hover:underline';
+                        linkElement.setAttribute('aria-label', linkInfo.label);
+
+                        const iconElement = document.createElement('i');
+                        iconElement.setAttribute('data-lucide', linkInfo.icon);
+                        iconElement.className = 'w-5 h-5';
+                        
+                        linkElement.appendChild(iconElement);
+                        linkElement.appendChild(document.createTextNode(linkInfo.label));
+                        container.appendChild(linkElement);
+                    });
+                }
+            });
+
+            document.querySelectorAll('.lang-switch-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.textContent.toLowerCase().includes(lang) || (lang === 'zh' && (btn.textContent === 'ZH' || btn.textContent === '中文'))) {
+                    btn.classList.add('active');
+                }
+            });
+
+            lucide.createIcons();
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            
+            mobileMenuButton.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+
+            mobileMenu.querySelectorAll('a, button').forEach(el => {
+                el.addEventListener('click', () => {
+                    setTimeout(() => mobileMenu.classList.add('hidden'), 100);
+                });
+            });
+
+            switchLanguage('zh');
+        });
+    </script>
+</body>
+</html>
